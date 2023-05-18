@@ -202,7 +202,7 @@ class TransformersSession(LLMSession):
     # def __call__(self, *args, **kwargs):
     #     return self.__call__(*args, **kwargs)
     
-    async def __call__(self, prompt, stop=None, stop_regex=None, temperature=None, n=1, max_tokens=1000, logprobs=None, top_p=1.0, echo=False, logit_bias=None, token_healing=None, pattern=None, stream=False, cache_seed=0, caching=None):
+    async def __call__(self, prompt, stop=None, stop_regex=None, temperature=None, n=1, max_tokens=1000, logprobs=None, top_p=1.0, repetition_penalty=1.0, echo=False, logit_bias=None, token_healing=None, pattern=None, stream=False, cache_seed=0, caching=None):
         """ Generate a completion of the given prompt.
         """
         
@@ -316,6 +316,7 @@ class TransformersSession(LLMSession):
                 temperature=temperature,
                 max_new_tokens=max_tokens,
                 top_p=top_p,
+                repetition_penalty=repetition_penalty,
                 pad_token_id=model_config.pad_token_id if model_config.pad_token_id is not None else self.llm._tokenizer.eos_token_id,
                 logits_processor=transformers.LogitsProcessorList(processors),
                 stopping_criteria=transformers.StoppingCriteriaList(stoppers),
